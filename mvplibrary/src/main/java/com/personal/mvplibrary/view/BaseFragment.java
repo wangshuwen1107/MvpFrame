@@ -13,8 +13,12 @@ import com.personal.mvplibrary.MvpBindException;
 import com.personal.mvplibrary.presenter.BaseFragmentPresenter;
 import com.personal.mvplibrary.utils.Logger;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
- * Created by wangshuwen on 2017/6/3.\
+ * Fragment View层
+ * @param <P>代表绑定的P层类型
  * 如果用到FragmentPagerAdapter由于viewpager的原因会默认加载左右两边的fragment，可以在setUserVisibleHint里面实现lazy load
  */
 
@@ -23,12 +27,15 @@ public abstract class BaseFragment<P extends BaseFragmentPresenter> extends Frag
     private View mRootView;
 
     private P mPresenter;
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mRootView == null) {
+
             mRootView = inflater.inflate(getLayoutId(), container, false);
+            unbinder = ButterKnife.bind(this, mRootView);
             //初始化成员变量
             initVariables(mRootView, container, savedInstanceState);
             // 初始化监听
@@ -100,6 +107,7 @@ public abstract class BaseFragment<P extends BaseFragmentPresenter> extends Frag
     public void onDestroy() {
         super.onDestroy();
         Logger.i(getClass().getSimpleName());
+        unbinder.unbind();
         if (null != mPresenter) {
             Logger.i(mPresenter.getClass().getSimpleName()+" unbind ");
             mPresenter.onDestroy();

@@ -6,28 +6,36 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.personal.mvplibrary.MvpBindException;
 import com.personal.mvplibrary.presenter.BaseActivityPresenter;
 import com.personal.mvplibrary.utils.Logger;
-import com.personal.mvplibrary.MvpBindException;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
- * Created by wangshuwen on 2017/6/3.
- * 1.这里判断P层是否为空没有抛异常是考虑到有的页面只显示没有业务层可以没有P层 没必要强制抛异常
+ * activity View层
+ *
+ * @param <P>代表绑定的P层类型 1.这里判断P层是否为空没有抛异常是考虑到有的页面只显示没有业务层可以没有P层 没必要强制抛异常
  */
 
 public abstract class BaseActivity<P extends BaseActivityPresenter> extends Activity {
 
     private P mPresenter;
 
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.i(getClass().getSimpleName());
         setContentView(getLayoutId());
+        unbinder = ButterKnife.bind(this);
         initVariables(getIntent().getData(), savedInstanceState);
         initListener();
-        initPresenter();
-        if (null!=mPresenter){
+        mPresenter = initPresenter();
+        if (null != mPresenter) {
             mPresenter.onCreate();
         }
     }
@@ -54,7 +62,7 @@ public abstract class BaseActivity<P extends BaseActivityPresenter> extends Acti
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (null!=mPresenter){
+        if (null != mPresenter) {
             mPresenter.onNewIntent(intent);
         }
     }
@@ -90,6 +98,7 @@ public abstract class BaseActivity<P extends BaseActivityPresenter> extends Acti
     protected void onDestroy() {
         super.onDestroy();
         Logger.i(getClass().getSimpleName());
+        unbinder.unbind();
         if (null != mPresenter) {
             mPresenter.onDestroy();
             mPresenter = null;

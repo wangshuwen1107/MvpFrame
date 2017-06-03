@@ -5,7 +5,8 @@ import com.personal.mvplibrary.utils.Logger;
 import com.personal.mvplibrary.view.BaseFragment;
 
 /**
- * Created by wangshuwen on 2017/6/3.
+ *  Fragment 业务逻辑处理基类
+ * @param <F> 代表Fragment的泛型
  */
 
 public abstract class BaseFragmentPresenter<F extends BaseFragment> {
@@ -15,34 +16,42 @@ public abstract class BaseFragmentPresenter<F extends BaseFragment> {
     public abstract void onLoadData();
 
     public BaseFragmentPresenter(F fragment) {
-        this.mFragment=fragment;
+        this.mFragment = fragment;
+        Logger.d("BindFragment: " + (null != fragment ? fragment.getClass().getSimpleName() : "Null"));
     }
 
-    public void onStart(){
+    public void onStart() {
         Logger.i(getClass().getSimpleName());
     }
 
-    public void onResume(){
+    public void onResume() {
         Logger.i(getClass().getSimpleName());
     }
 
-    public void onPause(){
+    public void onPause() {
         Logger.i(getClass().getSimpleName());
     }
 
-    public void onStop(){
+    public void onStop() {
         Logger.i(getClass().getSimpleName());
     }
 
-    public void onDestroyView(){
+    public void onDestroyView() {
         Logger.i(getClass().getSimpleName());
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         Logger.i(getClass().getSimpleName());
-        mFragment=null;
+        Logger.d("UnBindFragment: " + (null != mFragment ? mFragment.getClass().getSimpleName() : "Null"));
+        mFragment = null;
     }
 
+    //判断是否绑定fragment
+    protected boolean isFragmentBind() {
+        return null == mFragment ? false : true;
+    }
+
+    //获取View层
     protected F getFragment() {
         if (null == mFragment) {
             throw new MvpBindException("currentPresenter not bind presenter");
@@ -50,5 +59,6 @@ public abstract class BaseFragmentPresenter<F extends BaseFragment> {
             return mFragment;
         }
     }
+
 
 }

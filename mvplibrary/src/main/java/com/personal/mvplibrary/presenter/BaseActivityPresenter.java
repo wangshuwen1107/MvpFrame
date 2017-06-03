@@ -7,7 +7,8 @@ import com.personal.mvplibrary.MvpBindException;
 import com.personal.mvplibrary.view.BaseActivity;
 
 /**
- * Created by wangshuwen on 2017/6/3.
+ * activity 业务逻辑处理类
+ * @param <A>代表绑定的activity的类型
  */
 
 public abstract class BaseActivityPresenter<A extends BaseActivity> {

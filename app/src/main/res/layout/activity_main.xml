@@ -11,7 +11,18 @@
     tools:context="com.personal.mvpframe.MainActivity">
 
     <TextView
+        android:id="@+id/main_activity_contentTv"
+        android:text="请点击下面按钮加载数据。。"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/main_activity_bt"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="LoadDate" />
+
+
 </RelativeLayout>
