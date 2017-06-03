@@ -1,9 +1,14 @@
-package com.personal.mvplibrary;
+package com.personal.mvplibrary.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.personal.mvplibrary.presenter.BaseActivityPresenter;
+import com.personal.mvplibrary.utils.Logger;
+import com.personal.mvplibrary.MvpBindException;
 
 
 /**
@@ -11,7 +16,7 @@ import android.os.Bundle;
  * 1.这里判断P层是否为空没有抛异常是考虑到有的页面只显示没有业务层可以没有P层 没必要强制抛异常
  */
 
-public abstract class BaseActivity<P extends BasePresenter> extends Activity {
+public abstract class BaseActivity<P extends BaseActivityPresenter> extends Activity {
 
     private P mPresenter;
 
@@ -104,12 +109,32 @@ public abstract class BaseActivity<P extends BasePresenter> extends Activity {
     protected abstract P initPresenter();
 
     //获取P层
-    protected P getPresenter() {
+    public P getPresenter() {
         if (null == mPresenter) {
             throw new MvpBindException("currentActivity not bind presenter ");
         } else {
             return mPresenter;
         }
+    }
+
+    public void showToastShort(final CharSequence text) {
+        Logger.i("The toast context: " + text);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BaseActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showToastLong(final CharSequence text) {
+        Logger.i("The toast context: " + text);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BaseActivity.this, text, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

@@ -1,16 +1,20 @@
-package com.personal.mvplibrary;
+package com.personal.mvplibrary.presenter;
 
 import android.content.Intent;
+
+import com.personal.mvplibrary.utils.Logger;
+import com.personal.mvplibrary.MvpBindException;
+import com.personal.mvplibrary.view.BaseActivity;
 
 /**
  * Created by wangshuwen on 2017/6/3.
  */
 
-public abstract class BasePresenter<A extends BaseActivity> {
+public abstract class BaseActivityPresenter<A extends BaseActivity> {
 
     private A mView;
 
-    public BasePresenter(A view) {
+    public BaseActivityPresenter(A view) {
         this.mView = view;
     }
 

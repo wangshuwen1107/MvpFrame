@@ -1,4 +1,4 @@
-package com.personal.mvplibrary;
+package com.personal.mvplibrary.utils;
 
 import android.text.TextUtils;
 import android.util.Log;
